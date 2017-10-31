@@ -1,0 +1,75 @@
+{
+  "if": {
+    "not": {
+      "anyOf": [
+        {
+          "source": "action",
+          "like": "Microsoft.Resources/subscriptions/resourcegroups/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Compute/virtualMachines/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Network/expressRouteCircuits/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Network/virtualNetworkGateways/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Storage/storageAccounts/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Network/virtualNetworks/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Backup/BackupVault/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.SiteRecovery/SiteRecoveryVault/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.DevTestLab/labs/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.KeyVault/vaults/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.AppService/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Sql/servers/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Network/networkInterfaces/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Network/publicIPAddresses/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Network/networkSecurityGroups/*"
+        },
+        {
+          "source": "action",
+          "like": "Microsoft.Compute/disks/*"
+        }
+      ]
+    }
+  },
+  "then": {
+    "effect": "deny"
+  }
+}

@@ -1,0 +1,11 @@
+{
+    "if": {
+        "not": {
+            "field": "location",
+            "in": ["eastus","westus","japaneast","japanwest","northeurope","westeurope"]
+        }
+    },
+    "then": {
+        "effect": "Deny"
+    }
+}

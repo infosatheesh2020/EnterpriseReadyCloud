@@ -1,0 +1,26 @@
+{
+      "if":
+      {
+        "not": {
+          "field": "type",
+          "in": [
+            "Microsoft.Resources/subscriptions/resourcegroups/*",
+            "Microsoft.Compute/virtualMachines/*",
+            "Microsoft.Network/expressRouteCircuits/*",
+            "Microsoft.Network/virtualNetworkGateways/*",
+            "Microsoft.Storage/storageAccounts/*",
+            "Microsoft.Network/virtualNetworks/*",
+            "Microsoft.Backup/BackupVault/*",
+            "Microsoft.SiteRecovery/SiteRecoveryVault/*",
+            "Microsoft.DevTestLab/labs/*",
+            "Microsoft.KeyVault/vaults/*",
+            "Microsoft.AppService/*",
+            "Microsoft.Sql/servers/*"
+          ]
+        }
+      },
+      "then":
+      {
+        "effect": "deny"
+      }
+}
