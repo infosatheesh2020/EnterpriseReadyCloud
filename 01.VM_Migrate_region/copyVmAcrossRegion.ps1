@@ -22,7 +22,8 @@ param (
     [Parameter(Mandatory=$true)][string]$imageContainerName,
     [Parameter(Mandatory=$true)][string]$tgt_vnet,
     [Parameter(Mandatory=$true)][string]$tgt_subnet,
-    [Parameter(Mandatory=$false)][string]$os_type = "Linux"
+    [Parameter(Mandatory=$false)][string]$os_type = "Linux",
+    [Parameter(Mandatory=$false)][string]$av_set
  )
 
 
@@ -211,9 +212,27 @@ if (!((Get-AzureRmVMSize -Location $os_snapshot.Location).Name -contains $vmSize
     $vmSize = Read-Host 'Enter VM size '
 }
 
+# use existing AV set name if source VM has AV set and no new AV set name is passed as input
+if($vm.AvailabilitySetReference){
+    if(!$av_set){
+        $av_set = $vm.AvailabilitySetReference.Id.split('/')[-1]
+    }
+}
 
-#Initialize virtual machine configuration
-$VirtualMachine = New-AzureRmVMConfig -VMName $vmName -VMSize $vmSize
+# Initialize VM configuration based on AV set is passed
+if($av_set){
+    # Create new availability set if it does not exist
+    $availSet = Get-AzureRmAvailabilitySet -ResourceGroupName $tgt_resourceGroupName -Name $av_set -ErrorAction Ignore
+    if (-Not $availSet) {
+        $availSet = New-AzureRmAvailabilitySet -Location $os_snapshot.Location -Name $av_set -ResourceGroupName $tgt_resourceGroupName -PlatformFaultDomainCount 2 -PlatformUpdateDomainCount 5 -Sku Aligned
+    }
+    #Initialize virtual machine configuration with AV set
+    $VirtualMachine = New-AzureRmVMConfig -VMName $vmName -VMSize $vmSize -AvailabilitySetId $availSet.Id
+}
+else {
+    #Initialize virtual machine configuration without AV set
+    $VirtualMachine = New-AzureRmVMConfig -VMName $vmName -VMSize $vmSize
+}
 
 #Use the Managed Disk Resource Id to attach it to the virtual machine. Please change the OS type to linux if OS disk has linux OS
 If($os_type -eq "Linux"){
