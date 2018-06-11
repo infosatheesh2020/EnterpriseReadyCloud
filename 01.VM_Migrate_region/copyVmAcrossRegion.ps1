@@ -22,7 +22,6 @@ param (
     [Parameter(Mandatory=$true)][string]$imageContainerName,
     [Parameter(Mandatory=$true)][string]$tgt_vnet,
     [Parameter(Mandatory=$true)][string]$tgt_subnet,
-    [Parameter(Mandatory=$false)][string]$os_type = "Linux",
     [Parameter(Mandatory=$false)][string]$av_set
  )
 
@@ -53,6 +52,7 @@ if(!$container){
 ########################## COPY OS DISK - STARTS ########################################################
 
 # Set variables to create OS snapshot
+$os_type = $vm.StorageProfile.OsDisk.OsType
 $os_disk = Get-AzureRmDisk -ResourceGroupName $resourceGroupName -DiskName $vm.StorageProfile.OsDisk.Name
 $os_snapshotName = $vmName + "-" + $vm.Location + "-os-snap"
 
